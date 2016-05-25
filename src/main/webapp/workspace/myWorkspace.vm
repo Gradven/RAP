@@ -38,10 +38,10 @@
                 </div>
             </div>
             <button id="btnFastSave" type="button" class="btn btn-warning btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" onclick="ws.quickSave(); return false;" style="display: none"
-                    title="一键保存，方便快捷">
+                    data-placement="bottom" onclick="ws.quickSave(); return false;" style="display: none" disabled=true
+                    title="为了每次接口更改填写备注，取消秒存按钮">
                 <span class="glyphicon glyphicon-flash"></span>
-                秒存
+                暂停使用秒存
             </button>
             <button id="btnSave" type="button" class="btn btn-default btn-sm" data-toggle="tooltip"
                     data-placement="bottom" onclick="ws.switchToViewMode(true); return false;" style="display: none"
