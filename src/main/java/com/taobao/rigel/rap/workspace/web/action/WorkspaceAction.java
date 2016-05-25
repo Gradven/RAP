@@ -3,6 +3,10 @@ package com.taobao.rigel.rap.workspace.web.action;
 import com.google.gson.Gson;
 import com.taobao.rigel.rap.account.bo.Notification;
 import com.taobao.rigel.rap.account.bo.User;
+import com.taobao.rigel.rap.account.dao.AccountDao;
+import com.taobao.rigel.rap.account.dao.impl.AccountDaoImpl;
+import com.taobao.rigel.rap.account.service.AccountMgr;
+import com.taobao.rigel.rap.account.service.impl.AccountMgrImpl;
 import com.taobao.rigel.rap.common.base.ActionBase;
 import com.taobao.rigel.rap.common.config.SystemConstant;
 import com.taobao.rigel.rap.common.service.impl.ContextManager;
@@ -55,8 +59,18 @@ public class WorkspaceAction extends ActionBase {
     private int versionId;
     private String deletedObjectListData;
     private String tag;
+    private AccountMgr accountMgr;
+    
 
-    public Group getGroup() {
+    public AccountMgr getAccountMgr() {
+		return accountMgr;
+	}
+
+	public void setAccountMgr(AccountMgr accountMgr) {
+		this.accountMgr = accountMgr;
+	}
+
+	public Group getGroup() {
         return group;
     }
 
@@ -407,11 +421,21 @@ public class WorkspaceAction extends ActionBase {
         project.setVersion(checkIn.getVersion());
         checkIn.setWorkspaceMode(Workspace.ModeType.VSS);
         workspaceMgr.addCheckIn(checkIn);
+               
+        List<User> userList =  accountMgr.getUserListbyProjectId(project.getId());
         
+        String[] bccAddressArray = new String[userList.size()];
+        
+        for (int i = 0; i < userList.size(); i ++){
+        	bccAddressArray[i] = userList.get(i).getEmail();
+        	
+        }
+        
+        String projectName = project.getName();
         
         // send mail
-        String title = "RAP Interface: RAP has been a new changes!";        
-        MailUtils.sendMail(title, checkIn.toString());
+        String title = "RAP: [" + projectName + "] Interface was changed!";        
+        MailUtils.apacheSendMail(bccAddressArray, title, checkIn.toString());
 
         // calculate JSON string for client
         project = projectMgr.getProject(getId());

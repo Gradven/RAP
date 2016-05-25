@@ -134,11 +134,29 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
         String sql = "SELECT user_id FROM tb_corporation_and_user WHERE corporation_id = :teamId";
         Query query = currentSession().createSQLQuery(sql);
         query.setInteger("teamId", teamId);
+        
+        List<Role> list = query.list();
         return query.list();
     }
 
     public List<User> getUserList() {
         return currentSession().createQuery("from User").list();
+    }
+    
+    /**
+     * 从projectId获取到User List
+     * @param projectId
+     * @return
+     */
+    public List<User> getUserListbyProjectId(int projectId){
+        String sql = "SELECT b.* FROM tb_project_and_user a, tb_user b WHERE a.user_id = b.id AND a.project_id = :projectId";
+        Query query = currentSession().createSQLQuery(sql).addEntity(User.class);
+        query.setInteger("projectId", projectId);
+        
+        List<User> list = query.list();
+        
+        return list;
+    	
     }
 
     public void _changePassword(String account, String password) {

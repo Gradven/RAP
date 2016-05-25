@@ -17,6 +17,13 @@ public interface AccountMgr {
      * @return return true if succeed, otherwise return false
      */
     boolean validate(String account, String password);
+    
+    /**
+     * get user by projectId
+     * @param projectId
+     * @return
+     */
+    List<User>  getUserListbyProjectId(int projectId);
 
     /**
      * add new user

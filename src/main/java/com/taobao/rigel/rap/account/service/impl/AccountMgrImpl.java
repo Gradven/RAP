@@ -239,4 +239,12 @@ public class AccountMgrImpl implements AccountMgr {
         return null;
     }
 
+    /**
+     * 根据pojectId获取到用户列表
+     */
+	public List<User> getUserListbyProjectId(int projectId) {
+		
+		return accountDao.getUserListbyProjectId(projectId);
+	}
+
 }

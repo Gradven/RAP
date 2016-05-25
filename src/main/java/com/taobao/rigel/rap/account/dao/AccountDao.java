@@ -196,4 +196,6 @@ public interface AccountDao {
      */
     List<Integer> getUserIdList(int teamId);
 
+	List<User> getUserListbyProjectId(int projectId);
+
 }
